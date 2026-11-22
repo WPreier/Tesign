@@ -2,21 +2,59 @@
 
 Statische Präsentationswebsite für TESIGN – ALU | STAHL | GLAS | DESIGN GmbH, Stoob.
 
-Die Seiten liegen als HTML-Dateien im Projektroot. Es gibt keinen Baukasten, kein Backend und keine Abhängigkeiten. Der Ordner `archiv/` ist eine heruntergeladene Referenz der bisherigen öffentlichen Seiten und wird nicht als Website ausgeliefert.
+**Version:** siehe [`VERSION`](VERSION) (aktuell **1.1.0**) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md)
+
+Es gibt keinen Baukasten, kein Backend und keine Abhängigkeiten. Live-Referenz: [https://www.tesign.at](https://www.tesign.at).
+
+## Projektstruktur
+
+```
+.
+├── VERSION                 # aktuelle SemVer-Versionsnummer
+├── CHANGELOG.md            # Änderungsprotokoll
+├── README.md
+├── .gitignore
+└── theweb/                 # auslieferbare Website (Document Root)
+    ├── index.html
+    ├── planung.html
+    ├── referenzen.html
+    ├── anfrage.html
+    ├── impressum.html
+    ├── datenschutz.html
+    ├── styles.css
+    ├── theme.js
+    └── bilder/
+```
+
+Der Webserver muss auf `theweb/` als Document Root zeigen. Relative Pfade in den HTML-Dateien beziehen sich auf diesen Ordner.
 
 ## Lokal öffnen
 
-Im Projektordner einen lokalen Webserver starten und die Startseite im Browser aufrufen:
+Im Ordner `theweb/` einen lokalen Webserver starten und die Startseite im Browser aufrufen:
 
 ```bash
+cd theweb
 python3 -m http.server 8080
 ```
 
-Dann [http://localhost:8080/](http://localhost:8080/) öffnen.
+Alternativ mit Node.js:
+
+```bash
+npx serve -l 8765 theweb
+```
+
+Dann [http://localhost:8080/](http://localhost:8080/) bzw. [http://localhost:8765/](http://localhost:8765/) öffnen.
 
 Ein lokaler Server ist nötig, damit die Content-Security-Policy die eigene Stylesheet- und Scriptdatei zulässt. Die Datei `index.html` direkt vom Dateisystem zu öffnen blockiert diese Dateien in vielen Browsern.
 
 Die Darstellung folgt zunächst der Systemeinstellung (`prefers-color-scheme`). Der Schalter im Kopf speichert die Wahl unter dem Schlüssel `tesign-theme` in `localStorage`.
+
+## Sicherheit
+
+- Keine Drittanbieter-Skripte, Schriften oder Analysedienste
+- CSP und weitere Header per Meta-Tag bzw. Server (siehe unten)
+- Anfragen nur per `mailto:office@tesign.at` — kein Formular, kein Backend
+- Theme-Wahl nur lokal in `localStorage`
 
 ## Header für den Betrieb
 
